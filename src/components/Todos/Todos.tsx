@@ -26,6 +26,7 @@ const Todos = () => {
     const data = await postTodo(todo);
     console.log(data);
     get(title);
+    setTitle("")
   };
 
   const edit = async () => {

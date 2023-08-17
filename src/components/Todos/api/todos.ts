@@ -1,11 +1,11 @@
+import axios from "axios";
 import { ITodo, ITodoRequest } from "../types";
 
 export async function getTodos(title: string) {
   try {
-    const response = await fetch(
+    const { data } = await axios.get(
       `${import.meta.env.VITE_API_URL}/todos${title ? "?title=" + title : ""}`
-    );
-    const data = await response.json();
+      );
 
     return data;
   } catch (err) {
@@ -15,15 +15,10 @@ export async function getTodos(title: string) {
 
 export async function postTodo(body: ITodoRequest) {
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/todos`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(body),
-    });
-    const data = await response.json();
-
+    const { data } = await axios.post(
+      `${import.meta.env.VITE_API_URL}/todos`,
+      body
+    );
     return data;
   } catch (error) {
     return error;
@@ -31,17 +26,7 @@ export async function postTodo(body: ITodoRequest) {
 }
 export async function putTodo(body: ITodo) {
   try {
-    const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/todos/${body.id}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(body),
-      }
-    );
-    const data = await response.json();
+    const { data } = await axios.put(`${import.meta.env.VITE_API_URL}/todos/${body.id}`, body);
     return data;
   } catch (error) {
     return error;
@@ -50,13 +35,9 @@ export async function putTodo(body: ITodo) {
 
 export async function deleteTodo(id: number) {
   try {
-    const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/todos/${id}`,
-      {
-        method: "DELETE",
-      }
+    const { data } = await axios.delete(
+      `${import.meta.env.VITE_API_URL}/todos/${id}`
     );
-    const data = await response.json();
     return data;
   } catch (error) {
     return error;
